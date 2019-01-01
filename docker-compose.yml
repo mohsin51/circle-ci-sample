@@ -2,25 +2,27 @@ version: "3"
 
 services:
   client:
-    build: ./client
+    build: 
+      context: ./client
+      dockerfile: Dockerfile
     ports:
       - 8080:8080
     volumes:
       - ./client:/client
-      - ./client/package.json:/client/package.json
-    working_dir: /client 
+    working_dir: /client
     environment:
       - API_URL=http://localhost:8081/
     command: /bin/sh -c "npm start"
 
   server:
-    build: ./server
+    build: 
+      context: ./server
+      dockerfile: Dockerfile
     ports:
       - 8081:8081
     volumes:
       - ./server:/server
-      - ./server/package.json:/server/package.json      
-    working_dir: /server  
+    working_dir: /server
     depends_on: 
       - server-database
     environment:
