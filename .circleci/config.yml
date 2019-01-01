@@ -10,6 +10,8 @@ jobs:
       - checkout
       # Use the setup_remote_docker step to create a remote Docker environment. This is required to build the Docker image for deployment
       - setup_remote_docker
+      - run: sudo service docker restart
+      - run: sudo service docker status
       # - run:
       #       name: 'change permission'
       #       command: |
