@@ -6,7 +6,8 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./client:/data
+      - ./client:/client
+    # working_dir: /client 
     environment:
       - API_URL=http://localhost:8081/
 
@@ -15,7 +16,8 @@ services:
     ports:
       - 8081:8081
     volumes:
-      - ./server:/data
+      - ./server:/server
+    # working_dir: /server  
     depends_on: 
       - server-database
     environment:
@@ -26,6 +28,6 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./db:/data/db
+      - ./db:/server/db
 
     
