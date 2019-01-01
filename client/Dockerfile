@@ -5,15 +5,13 @@ COPY ./docker/entrypoint.sh /entrypoint/
 RUN ["chmod", "+x", "entrypoint/entrypoint.sh"]
 
 # Copy or mount node app here
-WORKDIR /client/
+# WORKDIR /client/
 
-COPY package*.json /client/
-
-EXPOSE 8080
+# EXPOSE 8080
 
 ENTRYPOINT ["/entrypoint/entrypoint.sh"]
 
-CMD ["npm", "start"]
+# CMD ["npm", "start"]
 
 
 
