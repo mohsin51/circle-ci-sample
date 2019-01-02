@@ -25,20 +25,15 @@ jobs:
                 chmod +x /usr/local/bin/docker-compose
       # Use the setup_remote_docker step to create a remote Docker environment. This is required to build the Docker image for deployment
       - setup_remote_docker
-      # - run:
-      #       name: 'change permission'
-      #       command: |
-      #         set -x
-      #         chmod -R 777 ~/app
       - run:
           name: 'Run docker-compose build'
           command: |
             set -x
-            docker build -t serv -f ./server/Dockerfile ./server
-            # docker-compose build --no-cache               
+            # docker build -t serv -f ./server/Dockerfile ./server
+            docker-compose build --no-cache               
       - run:
           name: 'Run docker-compose'
           command: |
             set -x
-            docker run -p 8081:8081 --name server-cont serv
-            # docker-compose up
+            # docker run -p 8081:8081 --name server-cont serv
+            docker-compose up
