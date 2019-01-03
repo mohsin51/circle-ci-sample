@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:  
-    # working_directory: ~/app
+    working_directory: ~/app
     docker:
       - image: node:latest
     steps:
@@ -29,11 +29,10 @@ jobs:
           name: 'Run docker-compose build'
           command: |
             set -x
-            # docker build -t serv -f ./server/Dockerfile ./server
             docker-compose build --no-cache               
       - run:
           name: 'Run docker-compose'
           command: |
             set -x
-            # docker run -p 8081:8081 --name server-cont serv
             docker-compose up
+            docker-compose ps

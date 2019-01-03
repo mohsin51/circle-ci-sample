@@ -5,7 +5,7 @@ if [ -d "./node_modules" ]; then
 
   else
     echo "Installing dependencies (this will only run the first time your container is created. If 'node_modules' already exists, this will be skipped for subsequent cointainers)..."
-    ls
+    ls /client
     pwd
     npm install
 fi

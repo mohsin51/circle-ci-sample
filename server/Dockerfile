@@ -1,6 +1,8 @@
 FROM node:carbon
 
+COPY ./package*.json /server/
 COPY ./docker/entrypoint.sh /entrypoint/
+
 
 RUN ["chmod", "+x", "entrypoint/entrypoint.sh"]
 
