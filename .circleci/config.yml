@@ -34,5 +34,6 @@ jobs:
           name: 'Run docker-compose'
           command: |
             set -x
+            
             docker-compose up
             docker-compose ps
