@@ -2,6 +2,7 @@ version: "3"
 
 services:
   client:
+    image: client:${CLIENT_TAG:-latest}
     build: 
       context: ./client
       dockerfile: Dockerfile
@@ -15,6 +16,7 @@ services:
     command: /bin/sh -c "npm start"
 
   server:
+    image: server:${BACKEND_TAG:-latest}
     build: 
       context: ./server
       dockerfile: Dockerfile
@@ -28,7 +30,7 @@ services:
     environment:
       - DATABASE_URL=server-database:27017
     command: /bin/sh -c "npm start"
-    
+
   server-database:
     image: mongo
     ports:
