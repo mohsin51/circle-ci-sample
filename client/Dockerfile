@@ -1,6 +1,6 @@
 FROM node:carbon
 
-COPY ./package*.json /client/
+# COPY ./package*.json /client/
 COPY ./docker/entrypoint.sh /entrypoint/
 
 

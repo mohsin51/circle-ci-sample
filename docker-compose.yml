@@ -6,7 +6,7 @@ services:
       context: ./client
       dockerfile: Dockerfile
     ports:
-      - 8080:8080
+      - 8082:8080
     volumes:
       - ./client:/client
     working_dir: /client
@@ -36,4 +36,3 @@ services:
     volumes:
       - ./db:/server/db
 
-    
