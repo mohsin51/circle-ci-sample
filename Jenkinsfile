@@ -23,8 +23,8 @@ node {
                         docker -v
                         docker stop $(docker ps -aq)
                         docker-compose -v
-                        export CLIENT_TAG=$VERSION
-                        export SERVER_TAG=$VERSION
+                        export CLIENT_TAG=${VERSION}
+                        export SERVER_TAG=${VERSION}
                         docker-compose build --no-cache
                         docker images
                     '''
