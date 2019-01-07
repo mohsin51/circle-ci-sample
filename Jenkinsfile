@@ -19,6 +19,7 @@ node {
                 try {
                     gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
                     def VERSION =gitCommitHash.take(7)
+
                     sh "export VERSION=$VERSION"
                     sh "export CLIENT_TAG=$VERSION"
                     sh "export SERVER_TAG=$VERSION"
@@ -44,10 +45,12 @@ node {
                     AWS_SECRET_ACCESS_KEY=credentials('jenkins-aws-secret-access-key')
                     sh  '''
                         /usr/local/bin/aws ecr get-login --no-include-email | sh
-                    '''   
+                    '''
+                    gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+                    def VERSION =gitCommitHash.take(7)
                     docker.withRegistry("$ECRURL", "$ECRCRED")   
                     {
-                        docker.image("$CLIENT_IMAGE").push("$VERSION")
+                        docker.image("$CLIENT_IMAGE").push(sh("echo $VERSION"))
                         docker.image("$SERVER_IMAGE").push("$VERSION")
                         docker.image("$DB_IMAGE").push("$VERSION")
                     }
