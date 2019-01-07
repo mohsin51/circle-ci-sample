@@ -57,7 +57,7 @@ node {
                     {
                         docker.image("$CLIENT_IMAGE:$VERSION").push("$VERSION")
                         docker.image("$SERVER_IMAGE:$VERSION").push("$VERSION")
-                        docker.image("$DB_IMAGE:$VERSION").push("$VERSION")
+                        docker.image("$DB_IMAGE:latest").push("latest")
                     }
 
             
