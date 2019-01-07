@@ -20,19 +20,19 @@ node {
                     gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
                     def VERSION =gitCommitHash.take(7)
 
-                    sh "export VERSION=$VERSION"
-                    sh "export CLIENT_TAG=$VERSION"
-                    sh "export BACKEND_TAG=$VERSION"
+                
 
-                    sh "printenv"
-
-                    sh  '''    
+                    sh  """   
+                        export VERSION=$VERSION 
+                        export CLIENT_TAG=$VERSION
+                        export BACKEND_TAG=$VERSION
+                        printenv
                         docker -v
                         docker stop $(docker ps -aq)
                         docker-compose -v
                         docker-compose build --no-cache
                         docker images
-                    '''
+                    """
                 } catch(exce) {
                     sh 'docker-compose down'
                     throw exce
