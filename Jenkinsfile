@@ -4,9 +4,9 @@
 node {
     withEnv(['VERSION=latest',
              'PROJECT=todo',
-             'CLIENT_IMAGE=client:latest',
-             'SERVER_IMAGE=server:latest',
-             'DB_IMAGE=mongo:latest',
+             'CLIENT_IMAGE=client',
+             'SERVER_IMAGE=server',
+             'DB_IMAGE=mongo',
              'ECRURL=http://308106623039.dkr.ecr.us-east-1.amazonaws.com',
              'ECRCRED=ecr:us-east-1:AWS_CRED' 
              ]) {
@@ -18,13 +18,14 @@ node {
             script {
                 try {
                     gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-                    VERSION = gitCommitHash.take(7)
+                    VERSION=gitCommitHash.take(7)
+                    
                     sh  '''
                         docker -v
                         docker stop $(docker ps -aq)
                         docker-compose -v
-                        export CLIENT_TAG=$VERSION
-                        export SERVER_TAG=$VERSION
+                        export CLIENT_TAG=${VERSION}
+                        export SERVER_TAG=${VERSION}
                         docker-compose build --no-cache
                         docker images
                     '''
@@ -46,15 +47,17 @@ node {
                     docker.withRegistry("$ECRURL", "$ECRCRED")
                     {
                         docker.image("$CLIENT_IMAGE").push()
-                    }
-                    docker.withRegistry("$ECRURL", "$ECRCRED")
-                    {
                         docker.image("$SERVER_IMAGE").push()
-                    }
-                    docker.withRegistry("$ECRURL", "$ECRCRED")
-                    {
                         docker.image("$DB_IMAGE").push()
                     }
+                    // docker.withRegistry("$ECRURL", "$ECRCRED")
+                    // {
+                    //     docker.image("$SERVER_IMAGE").push()
+                    // }
+                    // docker.withRegistry("$ECRURL", "$ECRCRED")
+                    // {
+                    //     docker.image("$DB_IMAGE").push()
+                    // }
                     
                 } catch(exc) {
                     throw exc
