@@ -18,9 +18,10 @@ node {
             script {
                 try {
                     gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-                    def VERSION=gitCommitHash.take(7)
+                    def NV=gitCommitHash.take(7)
                     
                     sh  '''
+                        expot VERSION=${NV}
                         docker -v
                         docker stop $(docker ps -aq)
                         docker-compose -v
@@ -50,9 +51,10 @@ node {
                         docker.image("$SERVER_IMAGE").push()
                         docker.image("$DB_IMAGE").push()
                     }
-                    // sh '''
-                    //       /usr/local/bin/aws cloudformation update-stack --template-body file://$PWD/infra/create-task-definition.yml --stack-name task
-                    // '''
+                    sh '''
+                           aws ecs update-service --cluster "$CLUSTER" --service "$SERVICE" --task-definition "$TASK_DEFINITION":"$REVISION"
+                          /usr/local/bin/aws cloudformation update-stack --template-body file://$PWD/infra/create-task-definition.yml --stack-name task
+                    '''
                     
                 } catch(exc) {
                     throw exc
