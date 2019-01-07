@@ -25,7 +25,8 @@ node {
 
             
                     sh  '''
-                        echo ${CLIENT_TAG}
+                        echo $CLIENT_TAG
+                        
                         docker -v
                         docker stop $(docker ps -aq)
                         docker-compose -v
