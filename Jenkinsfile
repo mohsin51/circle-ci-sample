@@ -6,7 +6,7 @@ node {
              'PROJECT=todo',
              'CLIENT_IMAGE=client',
              'SERVER_IMAGE=server',
-             'DB_IMAGE=mongo:latest',
+             'DB_IMAGE=mongo',
              'ECRURL=http://308106623039.dkr.ecr.us-east-1.amazonaws.com',
              'ECRCRED=ecr:us-east-1:AWS_CRED' 
              ]) {
@@ -26,6 +26,7 @@ node {
                         export VERSION=$VERSION 
                         export CLIENT_TAG=$VERSION
                         export BACKEND_TAG=$VERSION
+                        export DB_TAG=$VERSION
                         printenv
                         docker -v
                         docker-compose -v
@@ -58,10 +59,15 @@ node {
                         docker.image("$SERVER_IMAGE:$VERSION").push("$VERSION")
                         docker.image("$DB_IMAGE:$VERSION").push("$VERSION")
                     }
-                    // sh '''
-                        //    aws ecs update-service --cluster "$CLUSTER" --service "$SERVICE" --task-definition "$TASK_DEFINITION":"$REVISION"
-                        //   /usr/local/bin/aws cloudformation update-stack --template-body file://$PWD/infra/create-task-definition.yml --stack-name task
-                    // '''
+
+                    def CLUSTER="AWS_ECS_CLUSTER"
+                    def CLUSTER="AWS_ECS_CLUSTER"
+                    def CLUSTER="AWS_ECS_CLUSTER"
+
+                    sh """
+                        /usr/local/bin/aws cloudformation update-stack --stack-name task --use-previous-template --parameters ParameterKey=VERSION,ParameterValue=$VERSION
+                        /usr/local/bin/aws ecs update-service --force-new-deployment --service my-service
+                    """
                     
                 } catch(exc) {
                     throw exc
