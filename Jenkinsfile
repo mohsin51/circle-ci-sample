@@ -22,7 +22,9 @@ node {
 
                     sh "export VERSION=$VERSION"
                     sh "export CLIENT_TAG=$VERSION"
-                    sh "export SERVER_TAG=$VERSION"
+                    sh "export BACKEND_TAG=$VERSION"
+
+                    sh "printenv"
 
                     sh  '''    
                         docker -v
