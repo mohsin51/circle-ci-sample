@@ -23,10 +23,7 @@ node {
                     sh "export CLIENT_TAG=$VERSION"
                     sh "export SERVER_TAG=$VERSION"
 
-                    echo env.CLIENT_TAG
-                    echo env.SERVER_TAG
-                    sh  '''
-                        
+                    sh  '''    
                         docker -v
                         docker stop $(docker ps -aq)
                         docker-compose -v
@@ -50,9 +47,9 @@ node {
                     '''   
                     docker.withRegistry("$ECRURL", "$ECRCRED")   
                     {
-                        docker.image("$CLIENT_IMAGE").push()
-                        docker.image("$SERVER_IMAGE").push()
-                        docker.image("$DB_IMAGE").push()
+                        docker.image("$CLIENT_IMAGE").push("$VERSION")
+                        docker.image("$SERVER_IMAGE").push("$VERSION")
+                        docker.image("$DB_IMAGE").push("$VERSION")
                     }
                     // sh '''
                     //        aws ecs update-service --cluster "$CLUSTER" --service "$SERVICE" --task-definition "$TASK_DEFINITION":"$REVISION"
