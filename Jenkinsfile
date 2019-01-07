@@ -23,9 +23,9 @@ node {
                     sh "export CLIENT_TAG=$VERSION"
                     sh "export SERVER_TAG=$VERSION"
 
-            
+                    echo env.CLIENT_TAG
+                    echo env.SERVER_TAG
                     sh  '''
-                        echo $CLIENT_TAG
                         
                         docker -v
                         docker stop $(docker ps -aq)
@@ -54,10 +54,10 @@ node {
                         docker.image("$SERVER_IMAGE").push()
                         docker.image("$DB_IMAGE").push()
                     }
-                    sh '''
-                           aws ecs update-service --cluster "$CLUSTER" --service "$SERVICE" --task-definition "$TASK_DEFINITION":"$REVISION"
-                          /usr/local/bin/aws cloudformation update-stack --template-body file://$PWD/infra/create-task-definition.yml --stack-name task
-                    '''
+                    // sh '''
+                    //        aws ecs update-service --cluster "$CLUSTER" --service "$SERVICE" --task-definition "$TASK_DEFINITION":"$REVISION"
+                    //       /usr/local/bin/aws cloudformation update-stack --template-body file://$PWD/infra/create-task-definition.yml --stack-name task
+                    // '''
                     
                 } catch(exc) {
                     throw exc
