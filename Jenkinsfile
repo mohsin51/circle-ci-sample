@@ -46,8 +46,11 @@ node {
                     sh  '''
                         /usr/local/bin/aws ecr get-login --no-include-email | sh
                     '''
+
                     gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
                     def VERSION =gitCommitHash.take(7)
+
+
                     docker.withRegistry("$ECRURL", "$ECRCRED")   
                     {
                         docker.image("$CLIENT_IMAGE").push(sh("echo $VERSION"))
@@ -55,8 +58,8 @@ node {
                         docker.image("$DB_IMAGE").push("$VERSION")
                     }
                     // sh '''
-                    //        aws ecs update-service --cluster "$CLUSTER" --service "$SERVICE" --task-definition "$TASK_DEFINITION":"$REVISION"
-                    //       /usr/local/bin/aws cloudformation update-stack --template-body file://$PWD/infra/create-task-definition.yml --stack-name task
+                        //    aws ecs update-service --cluster "$CLUSTER" --service "$SERVICE" --task-definition "$TASK_DEFINITION":"$REVISION"
+                        //   /usr/local/bin/aws cloudformation update-stack --template-body file://$PWD/infra/create-task-definition.yml --stack-name task
                     // '''
                     
                 } catch(exc) {
