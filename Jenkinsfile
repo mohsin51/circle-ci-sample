@@ -60,10 +60,7 @@ node {
                         docker.image("$DB_IMAGE:$VERSION").push("$VERSION")
                     }
 
-                    def CLUSTER="AWS_ECS_CLUSTER"
-                    def CLUSTER="AWS_ECS_CLUSTER"
-                    def CLUSTER="AWS_ECS_CLUSTER"
-
+            
                     sh """
                         /usr/local/bin/aws cloudformation update-stack --stack-name task --use-previous-template --parameters ParameterKey=VERSION,ParameterValue=$VERSION
                         /usr/local/bin/aws ecs update-service --force-new-deployment --service my-service
