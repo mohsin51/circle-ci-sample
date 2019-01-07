@@ -20,14 +20,15 @@ node {
                     gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
                     def VERSION =gitCommitHash.take(7)
                     sh "export VERSION=$VERSION"
+                    sh "export CLIENT_TAG=$VERSION"
+                    sh "export SERVER_TAG=$VERSION"
 
-
+                    sh "echo $CLIENT_TAG"
+                    sh "echo SERVER_TAG"
                     sh  '''
                         docker -v
                         docker stop $(docker ps -aq)
                         docker-compose -v
-                        export CLIENT_TAG=$(echo $VERSION)
-                        export SERVER_TAG=$(echo $VERSION)
                         docker-compose build --no-cache
                         docker images
                     '''
