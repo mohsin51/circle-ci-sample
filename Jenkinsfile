@@ -19,8 +19,8 @@ node {
                 try {
                     gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
                     def VERSION =gitCommitHash.take(7)
-                    sh 'echo $VERSION'
-                    sh "echo $VERSION"
+                    sh "export VERSION=$VERSION"
+
 
                     sh  '''
                         docker -v
