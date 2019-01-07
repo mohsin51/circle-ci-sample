@@ -53,9 +53,9 @@ node {
 
                     docker.withRegistry("$ECRURL", "$ECRCRED")   
                     {
-                        docker.image("$CLIENT_IMAGE").push(sh("echo $VERSION"))
-                        docker.image("$SERVER_IMAGE").push("$VERSION")
-                        docker.image("$DB_IMAGE").push("$VERSION")
+                        docker.image("$CLIENT_IMAGE:$VERSION").push("$VERSION")
+                        docker.image("$SERVER_IMAGE:$VERSION").push("$VERSION")
+                        docker.image("$DB_IMAGE:$VERSION").push("$VERSION")
                     }
                     // sh '''
                         //    aws ecs update-service --cluster "$CLUSTER" --service "$SERVICE" --task-definition "$TASK_DEFINITION":"$REVISION"
