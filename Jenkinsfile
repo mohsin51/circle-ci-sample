@@ -18,14 +18,14 @@ node {
             script {
                 try {
                     gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-                    VERSION=gitCommitHash.take(7)
+                    def VERSION=gitCommitHash.take(7)
                     
                     sh  '''
                         docker -v
                         docker stop $(docker ps -aq)
                         docker-compose -v
-                        export CLIENT_TAG=${VERSION}
-                        export SERVER_TAG=${VERSION}
+                        export CLIENT_TAG=$(echo $VERSION)
+                        export SERVER_TAG=$(echo $VERSION)
                         docker-compose build --no-cache
                         docker images
                     '''
@@ -50,14 +50,9 @@ node {
                         docker.image("$SERVER_IMAGE").push()
                         docker.image("$DB_IMAGE").push()
                     }
-                    // docker.withRegistry("$ECRURL", "$ECRCRED")
-                    // {
-                    //     docker.image("$SERVER_IMAGE").push()
-                    // }
-                    // docker.withRegistry("$ECRURL", "$ECRCRED")
-                    // {
-                    //     docker.image("$DB_IMAGE").push()
-                    // }
+                    // sh '''
+                    //       /usr/local/bin/aws cloudformation update-stack --template-body file://$PWD/infra/create-task-definition.yml --stack-name task
+                    // '''
                     
                 } catch(exc) {
                     throw exc
