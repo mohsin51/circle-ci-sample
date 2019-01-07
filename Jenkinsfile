@@ -21,7 +21,9 @@ node {
                     def NV=gitCommitHash.take(7)
                     
                     sh  '''
-                        export VERSION=${NV}
+                        export VERSION="${NV}"
+                        export VERSION=$(echo "$NV")
+                        export VERSION=$(echo "${NV}")
                         docker -v
                         docker stop $(docker ps -aq)
                         docker-compose -v
