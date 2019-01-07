@@ -23,9 +23,9 @@ node {
                     sh "export CLIENT_TAG=$VERSION"
                     sh "export SERVER_TAG=$VERSION"
 
-                    sh "echo $CLIENT_TAG"
-                    sh "echo SERVER_TAG"
+            
                     sh  '''
+                        echo ${CLIENT_TAG}
                         docker -v
                         docker stop $(docker ps -aq)
                         docker-compose -v
