@@ -63,7 +63,7 @@ node {
             
                     sh """
                         /usr/local/bin/aws cloudformation update-stack --stack-name task --use-previous-template --parameters ParameterKey=VERSION,ParameterValue=$VERSION
-                        /usr/local/bin/aws ecs update-service --force-new-deployment --service my-service
+                        /usr/local/bin/aws ecs update-service --force-new-deployment --service serivce-Service-1RFVUQ1RNF4EL
                     """
                     
                 } catch(exc) {
