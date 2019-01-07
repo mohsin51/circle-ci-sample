@@ -6,7 +6,7 @@ node {
              'PROJECT=todo',
              'CLIENT_IMAGE=client',
              'SERVER_IMAGE=server',
-             'DB_IMAGE=mongo',
+             'DB_IMAGE=mongo:latest',
              'ECRURL=http://308106623039.dkr.ecr.us-east-1.amazonaws.com',
              'ECRCRED=ecr:us-east-1:AWS_CRED' 
              ]) {
@@ -44,7 +44,7 @@ node {
                     sh  '''
                         /usr/local/bin/aws ecr get-login --no-include-email | sh
                     '''   
-                    docker.withRegistry("$ECRURL", "$ECRCRED")
+                    docker.withRegistry("$ECRURL", "$ECRCRED")   
                     {
                         docker.image("$CLIENT_IMAGE").push()
                         docker.image("$SERVER_IMAGE").push()

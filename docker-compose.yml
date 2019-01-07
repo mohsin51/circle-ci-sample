@@ -32,7 +32,7 @@ services:
     command: /bin/sh -c "npm start"
 
   server-database:
-    image: mongo
+    image: mongo:latest
     ports:
       - 27017:27017
     volumes:
